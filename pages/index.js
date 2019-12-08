@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, forwardRef } from 'react';
 import Perspective from 'perspective-transform';
 import useDebounce from '../utils/debounce';
 import useAxios from '../utils/axios';
@@ -26,7 +26,7 @@ const BillClintonSwag = ({ onClick, albums = [], selectedIndex = null }) => {
       <div className="bg">
         {albums.map((x, idx) => (
           <img
-            key={x}
+            key={idx}
             draggable="false"
             onClick={e => {
               e.stopPropagation();
@@ -47,7 +47,6 @@ const BillClintonSwag = ({ onClick, albums = [], selectedIndex = null }) => {
             position: relative;
             display: inline-block;
             overflow: hidden;
-            transform: scale(0.9);
           }
 
           .wrapper > img {
@@ -90,7 +89,7 @@ const BillClintonSwag = ({ onClick, albums = [], selectedIndex = null }) => {
           }
 
           .album.selected {
-            border: 15px solid blue;
+            border: 15px solid #265da5;
           }
 
           .album.one {
@@ -114,19 +113,19 @@ const BillClintonSwag = ({ onClick, albums = [], selectedIndex = null }) => {
   );
 };
 
-const AlbumSelector = ({ onChange, active = false }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const inputRef = useRef();
+const AlbumSelector = forwardRef(({ onChange, active = false }, ref) => {
+  const [searchTerm, setSearchTerm] = useState('Kanye');
+  // const inputRef = useRef();
   const isExpanded = searchTerm !== '';
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  useEffect(() => {
-    if (active) {
-      inputRef.current.focus();
-    }
-  }, [active]);
+  // useEffect(() => {
+  //   if (active) {
+  //     inputRef.current.focus();
+  //   }
+  // }, [active]);
 
-  const { data, error } = useAxios(
+  const { data, error, loading } = useAxios(
     debouncedSearchTerm === ''
       ? null
       : {
@@ -136,7 +135,7 @@ const AlbumSelector = ({ onChange, active = false }) => {
   );
 
   return (
-    <div className={'root' + (active ? ' active' : ' inactive') + (isExpanded ? ' expanded' : '')}>
+    <div>
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -146,55 +145,108 @@ const AlbumSelector = ({ onChange, active = false }) => {
             setSearchTerm('');
           }
         }}>
-        <input
-          ref={inputRef}
-          disabled={!active}
-          type="text"
-          onChange={e => setSearchTerm(e.target.value)}
-          value={searchTerm}
-          placeholder="Search for an album..."
-        />
+        <div className="flex">
+          <input
+            ref={ref}
+            disabled={!active}
+            tabIndex={0}
+            type="text"
+            onChange={e => setSearchTerm(e.target.value)}
+            onFocus={e => e.target.select()}
+            value={searchTerm}
+            placeholder="Search for an album..."
+          />
+          {loading && <img className="loading" src="/images/loading.gif" />}
+        </div>
       </form>
       <br />
       {data &&
         searchTerm &&
-        data.results.albummatches.album.map(album => (
-          <img
-            key={album.image[3]['#text']}
-            onClick={() => {
-              onChange(album.image[3]['#text']);
-              setSearchTerm('');
-            }}
-            src={album.image[3]['#text']}
-          />
-        ))}
+        data.results.albummatches.album.slice(0, 6).map((album, idx) => {
+          function handleSelection() {
+            onChange(album.image[3]['#text']);
+            setSearchTerm('');
+          }
+          return (
+            <img
+              className="album"
+              key={idx}
+              tabIndex={0}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  handleSelection();
+                }
+              }}
+              onClick={handleSelection}
+              src={album.image[3]['#text']}
+            />
+          );
+        })}
 
-      <style jsx>
-        {`
-          .root {
-            width: 100%;
-            position: fixed;
-            bottom: -80vh;
-            z-index: 99;
-            background: white;
-            height: 80vh;
-            transition: bottom 0.2s;
-          }
-          .root.active {
-            bottom: calc(-80vh + 100px);
-          }
-          .root.active.expanded {
-            bottom: calc(-20vh);
-          }
-          .root.inactive {
-          }
-        `}
-      </style>
+      <style jsx>{`
+        .flex {
+          display: flex;
+        }
+        .flex > input {
+          flex: 1;
+          max-width: 80%;
+        }
+        .flex > img {
+          height: 25px;
+          width: 25px;
+          padding: 3px;
+          box-sizing: border-box;
+          margin-left: 10px;
+        }
+        .album {
+          width: 140px;
+          margin: 0 20px 20px 0;
+        }
+        input {
+          color: #333;
+          width: 100%;
+          box-sizing: border-box;
+          padding: 7px 15px;
+          border: 1px solid #ccc;
+          position: relative;
+          background: transparent;
+        }
+      `}</style>
     </div>
   );
-};
+});
+
+const Header = () => (
+  <header className="root">
+    <h1>Bill Clinton Swag</h1>
+    <span>"I did not have sexual relations with that record"</span>
+    <style jsx>
+      {`
+        .root {
+          margin: 2rem 0;
+        }
+        h1 {
+          font-size: 3em;
+          line-height: 0.95;
+          margin: 0;
+          padding-top: 25px;
+        }
+        span {
+          display: block;
+          text-align: right;
+          margin-right: 2.2em;
+          font-style: italic;
+          font-weight: 300;
+        }
+      `}
+    </style>
+  </header>
+);
 
 const Page = () => {
+  const inputRef = useRef();
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [albums, setAlbums] = useState([
     DEFAULT_IMAGE,
@@ -203,6 +255,11 @@ const Page = () => {
     DEFAULT_IMAGE
   ]);
 
+  let defaultIndex = albums.indexOf(DEFAULT_IMAGE);
+  if (defaultIndex === -1) {
+    defaultIndex = 0;
+  }
+
   return (
     <>
       <Head>
@@ -210,26 +267,35 @@ const Page = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <div className="container">
-        <header>
-          <h1>Bill Clinton Swag</h1>
-          <span>"I did not have sexual relations with the record"</span>
-        </header>
+        <Header />
 
-        <BillClintonSwag
-          albums={albums}
-          onClick={idx => setSelectedIndex(idx)}
-          selectedIndex={selectedIndex}
-        />
+        <div className="flex">
+          <div>
+            <BillClintonSwag
+              albums={albums}
+              onClick={idx => {
+                setSelectedIndex(idx);
+                inputRef.current.focus();
+              }}
+              selectedIndex={selectedIndex}
+            />
+          </div>
+          <div>
+            <AlbumSelector
+              ref={inputRef}
+              active={true}
+              onChange={album => {
+                const newAlbums = [...albums];
+                const idx = selectedIndex !== null ? selectedIndex : defaultIndex;
+                newAlbums[idx] = album;
+                setAlbums(newAlbums);
+                setSelectedIndex(null);
+                inputRef.current.focus();
+              }}
+            />
+          </div>
+        </div>
       </div>
-      <AlbumSelector
-        active={selectedIndex !== null}
-        onChange={album => {
-          const newAlbums = [...albums];
-          newAlbums[selectedIndex] = album;
-          setAlbums(newAlbums);
-          setSelectedIndex(null);
-        }}
-      />
 
       <style jsx global>
         {`
@@ -238,20 +304,25 @@ const Page = () => {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: helvetica;
           }
 
           .container {
             margin: 0 auto;
-            max-width: 1000px;
+            max-width: 900px;
             display: flex;
             align-items: center;
             flex-direction: column;
           }
 
-          h1 {
-            color: #265da5;
-            margin: 0;
-            padding-top: 25px;
+          .flex {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+          }
+          .flex > div {
+            margin: 0 25px;
+            flex: 1;
           }
         `}
       </style>
