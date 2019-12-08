@@ -114,16 +114,9 @@ const BillClintonSwag = ({ onClick, albums = [], selectedIndex = null }) => {
 };
 
 const AlbumSelector = forwardRef(({ onChange, active = false }, ref) => {
-  const [searchTerm, setSearchTerm] = useState('Kanye');
-  // const inputRef = useRef();
+  const [searchTerm, setSearchTerm] = useState('');
   const isExpanded = searchTerm !== '';
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
-
-  // useEffect(() => {
-  //   if (active) {
-  //     inputRef.current.focus();
-  //   }
-  // }, [active]);
 
   const { data, error, loading } = useAxios(
     debouncedSearchTerm === ''
