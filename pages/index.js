@@ -130,7 +130,7 @@ const AlbumSelector = forwardRef(({ onChange, active = false }, ref) => {
       ? null
       : {
           method: 'get',
-          url: `http://ws.audioscrobbler.com/2.0/?method=album.search&album=${debouncedSearchTerm}&api_key=ca14ba934a1e3c12f36c30bdf81f4f43&format=json&callback=`
+          url: `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${debouncedSearchTerm}&api_key=ca14ba934a1e3c12f36c30bdf81f4f43&format=json&callback=`
         }
   );
 
