@@ -3,9 +3,9 @@ import Perspective from 'perspective-transform';
 import useDebounce from '../utils/debounce';
 import useAxios from '../utils/axios';
 import Head from 'next/head';
+import Layout from '../layouts';
 
-const DEFAULT_IMAGE =
-  'https://www.nicepng.com/png/full/430-4305845_question-mark-doubt-icon-png.png';
+const DEFAULT_IMAGE = '/images/placeholder.png';
 const COORDS = [
   [107, 238, 262, 288, 67, 384, 212, 436],
   [118, 512, 266, 546, 9, 626, 186, 692],
@@ -240,7 +240,7 @@ const Header = () => (
 
 const Page = () => {
   const inputRef = useRef();
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [albums, setAlbums] = useState([
     DEFAULT_IMAGE,
     DEFAULT_IMAGE,
@@ -254,7 +254,7 @@ const Page = () => {
   }
 
   return (
-    <>
+    <Layout>
       <Head>
         <title>Bill Clinton Swag</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -282,8 +282,11 @@ const Page = () => {
                 const idx = selectedIndex !== null ? selectedIndex : defaultIndex;
                 newAlbums[idx] = album;
                 setAlbums(newAlbums);
-                setSelectedIndex(null);
-                inputRef.current.focus();
+                if (selectedIndex === albums.length - 1) {
+                } else {
+                  setSelectedIndex((selectedIndex + 1) % 4);
+                  inputRef.current.focus();
+                }
               }}
             />
           </div>
@@ -319,7 +322,7 @@ const Page = () => {
           }
         `}
       </style>
-    </>
+    </Layout>
   );
 };
 
