@@ -8,6 +8,7 @@ import os
 
 from flask import Flask, jsonify, request, redirect
 from PIL import Image
+from urllib.parse import urlparse
 from typing import List
 
 app = Flask(__name__)
@@ -76,7 +77,8 @@ def main(album_urls: List[str]) -> io.BytesIO:
         Body=output,
         ContentType='image/png',
     )
-    return f'https://s3.amazonaws.com/{bucket}/{key}'
+
+    return token
 
 
 @app.route('/', defaults={'path': ''})
@@ -84,7 +86,9 @@ def main(album_urls: List[str]) -> io.BytesIO:
 def catch_all(path):
     album_urls = request.args.getlist('album_url')
     assert len(album_urls) == 4, album_urls
-    output_url = main(album_urls=album_urls)
+    token = main(album_urls=album_urls)
+    url = urlparse(request.base_url)
+    output_url = f'{url.scheme}://{url.netloc}/swag/{token}'
     return redirect(output_url, code=302)
 
 
