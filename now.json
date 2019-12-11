@@ -1,0 +1,6 @@
+{
+  "env": {
+    "ACCESS_KEY_ID": "@bcs-access-key-id",
+    "SECRET_ACCESS_KEY": "@bsc-secret-access-key"
+  }
+}

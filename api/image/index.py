@@ -4,6 +4,7 @@ import random
 import string
 import boto3
 import urllib.request
+import os
 
 from flask import Flask, jsonify, request, redirect
 from PIL import Image
@@ -12,8 +13,8 @@ from typing import List
 app = Flask(__name__)
 s3 = boto3.client(
     's3',
-    aws_access_key_id='AKIAXWJRXYZUSB7XIGF7',
-    aws_secret_access_key='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'
+    aws_access_key_id=os.environ.get('ACCESS_KEY_ID'),
+    aws_secret_access_key=os.environ.get('SECRET_ACCESS_KEY')
 )
 
 COORDS = [
