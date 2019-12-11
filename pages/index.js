@@ -4,6 +4,7 @@ import useDebounce from '../utils/debounce';
 import useAxios from '../utils/axios';
 import Head from 'next/head';
 import Layout from '../layouts';
+import Header from '../components/header';
 
 const DEFAULT_IMAGE = '/images/placeholder.png';
 const COORDS = [
@@ -40,9 +41,31 @@ const BillClintonSwag = ({ onClick, albums = [], selectedIndex = null }) => {
       </div>
       <div className="fg">
         <img src="/images/clintonfront.png" />
+        <div className="watermark-wrapper">
+          <div className="watermark">PREVIEW</div>
+        </div>
       </div>
       <style jsx>
         {`
+          .watermark-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .watermark {
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: bold;
+            letter-spacing: 1px;
+            transform: rotate(45deg);
+            font-size: 80px;
+          }
+
           .wrapper {
             position: relative;
             display: inline-block;
@@ -128,7 +151,7 @@ const AlbumSelector = forwardRef(({ onChange, active = false }, ref) => {
   );
 
   return (
-    <div>
+    <div className="root">
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -160,6 +183,7 @@ const AlbumSelector = forwardRef(({ onChange, active = false }, ref) => {
             onChange(album.image[3]['#text']);
             setSearchTerm('');
           }
+
           return (
             <img
               className="album"
@@ -211,35 +235,9 @@ const AlbumSelector = forwardRef(({ onChange, active = false }, ref) => {
   );
 });
 
-const Header = () => (
-  <header className="root">
-    <h1>Bill Clinton Swag</h1>
-    <span>"I did not have sexual relations with that record"</span>
-    <style jsx>
-      {`
-        .root {
-          margin: 2rem 0;
-        }
-        h1 {
-          font-size: 3em;
-          line-height: 0.95;
-          margin: 0;
-          padding-top: 25px;
-        }
-        span {
-          display: block;
-          text-align: right;
-          margin-right: 2.2em;
-          font-style: italic;
-          font-weight: 300;
-        }
-      `}
-    </style>
-  </header>
-);
-
 const Page = () => {
   const inputRef = useRef();
+  const [loading, setLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [albums, setAlbums] = useState([
     DEFAULT_IMAGE,
@@ -249,8 +247,19 @@ const Page = () => {
   ]);
 
   let defaultIndex = albums.indexOf(DEFAULT_IMAGE);
+  let isComplete = defaultIndex === -1 || true;
   if (defaultIndex === -1) {
     defaultIndex = 0;
+  }
+
+  function generateSwag() {
+    setLoading(true);
+    let url = '/api/image?';
+    url += albums
+      .map(x => (x.startsWith('/') ? `${window.location.origin}${x}` : x))
+      .map(x => `album_url=${encodeURIComponent(x)}`)
+      .join('&');
+    window.location = url;
   }
 
   return (
@@ -288,20 +297,13 @@ const Page = () => {
                 }
               }}
             />
+            {isComplete && <button onClick={generateSwag}>Generate Swag</button>}
           </div>
         </div>
       </div>
 
-      <style jsx global>
+      <style jsx>
         {`
-          html,
-          body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: helvetica;
-          }
-
           .container {
             margin: 0 auto;
             max-width: 900px;
