@@ -21,6 +21,11 @@ const Page = ({
             display: flex;
             align-items: center;
             flex-direction: column;
+            padding: 0 25px;
+            padding-bottom: 150px;
+          }
+          img {
+            max-width: 100%;
           }
         `}
       </style>

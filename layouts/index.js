@@ -11,7 +11,7 @@ export default ({ children }) => {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35719589-1" />
         <script dangerouslySetInnerHTML={{ __html: gTagConfig }} />
       </Head>

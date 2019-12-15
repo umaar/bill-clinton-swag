@@ -18,7 +18,7 @@ const Page = () => {
     DEFAULT_IMAGE
   ]);
 
-  const isComplete = albums.indexOf(DEFAULT_IMAGE) === -1 || true;
+  const isComplete = albums.indexOf(DEFAULT_IMAGE) === -1;
 
   function generateSwag() {
     setLoading(true);
@@ -64,9 +64,10 @@ const Page = () => {
           .container {
             margin: 0 auto;
             display: flex;
-            align-items: stretch;
+            align-items: center;
             flex-direction: column;
             padding: 0 25px;
+            max-width: 900px;
           }
 
           button {
@@ -87,6 +88,10 @@ const Page = () => {
               left: 0;
               width: 100vw;
               padding: 20px;
+              z-index: 99;
+            }
+            .container {
+              padding-bottom: 150px;
             }
           }
         `}

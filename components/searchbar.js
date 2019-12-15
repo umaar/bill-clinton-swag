@@ -105,7 +105,7 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
         {`
           form {
             position: relative;
-            align-self: stretch;
+            width: 465px;
           }
 
           input {
@@ -138,6 +138,13 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
             border-top: none;
             background: white;
             box-sizing: border-box;
+          }
+
+          @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+            form {
+              align-self: stretch;
+              width: auto;
+            }
           }
         `}
       </style>

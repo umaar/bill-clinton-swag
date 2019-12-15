@@ -1,12 +1,20 @@
+import Link from 'next/link';
+
 export default () => (
-  <header className="root">
-    <h1>Bill Clinton Swag</h1>
-    <span>"I did not have sexual relations with that record"</span>
+  <>
+    <Link href="/">
+      <header className="root">
+        <h1>Bill Clinton Swag</h1>
+        <span>"I did not have sexual relations with that record"</span>
+      </header>
+    </Link>
+
     <style jsx>
       {`
         .root {
           margin: 2rem 0;
           align-self: center;
+          cursor: pointer;
         }
         h1 {
           font-size: 3em;
@@ -32,5 +40,5 @@ export default () => (
         }
       `}
     </style>
-  </header>
+  </>
 );

@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Perspective from 'perspective-transform';
 import useWindowSize from '../utils/window-size';
 
@@ -25,8 +25,9 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
   const reload = useReload();
   const windowSize = useWindowSize();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     reload();
+    setTimeout(reload, 100);
   }, [JSON.stringify(windowSize)]);
 
   const scale = ref.current ? ref.current.width / 465.0 : 1.0;
