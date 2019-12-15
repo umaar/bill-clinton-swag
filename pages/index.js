@@ -4,6 +4,7 @@ import Layout from '../layouts';
 import Header from '../components/header';
 import SearchBar from '../components/searchbar';
 import SwagPreview from '../components/swag-preview';
+import ThreeDots from '../components/three-dots';
 
 const DEFAULT_IMAGE = '/images/placeholder.png';
 
@@ -56,7 +57,9 @@ const Page = () => {
           selectedIndex={selectedIndex}
         />
 
-        {isComplete && <button onClick={generateSwag}>Generate Swag</button>}
+        {isComplete && (
+          <button onClick={generateSwag}>{loading ? <ThreeDots /> : 'Generate Swag'}</button>
+        )}
       </div>
 
       <style jsx>
@@ -72,13 +75,13 @@ const Page = () => {
 
           button {
             font-size: 18px;
-            margin-top: 15px;
             color: white;
             background-color: #0e233e;
             border: none;
-            padding: 8px 15px;
+            padding: 0.75em;
             font-weight: bold;
             margin-left: 0;
+            width: 250px;
           }
 
           @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {

@@ -111,18 +111,21 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
           input {
             color: #333;
             box-sizing: border-box;
-            padding: 7px 15px;
+            padding: 1em 1.5em;
+            font-size: 0.75em;
             border: 1px solid #ccc;
             position: relative;
             background: transparent;
             width: 100%;
+            -webkit-appearance: none;
+            border-radius: 0;
           }
 
           .loading {
             position: absolute;
-            top: 7px;
-            right: 7px;
-            width: 15px;
+            top: 0.7em;
+            right: 0.7em;
+            width: 1.25em;
           }
 
           .results {

@@ -30,7 +30,7 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
     setTimeout(reload, 100);
   }, [JSON.stringify(windowSize)]);
 
-  const scale = ref.current ? ref.current.width / 465.0 : 1.0;
+  const scale = ref.current && ref.current.width ? ref.current.width / 465.0 : 1.0;
   let matrices = COORDS.map(
     dest =>
       Perspective(
@@ -66,6 +66,13 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
       </div>
       <style jsx>
         {`
+          .wrapper {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            margin: 25px 0;
+          }
+
           .watermark-wrapper {
             position: absolute;
             top: 0;
@@ -83,13 +90,6 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
             letter-spacing: 1px;
             transform: rotate(45deg) scale(${scale});
             font-size: 80px;
-          }
-
-          .wrapper {
-            position: relative;
-            display: inline-block;
-            overflow: hidden;
-            margin-top: 25px;
           }
 
           .wrapper > img {
