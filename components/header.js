@@ -6,6 +6,7 @@ export default () => (
       {`
         .root {
           margin: 2rem 0;
+          align-self: center;
         }
         h1 {
           font-size: 3em;
@@ -19,6 +20,15 @@ export default () => (
           margin-right: 2.2em;
           font-style: italic;
           font-weight: 300;
+        }
+
+        @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+          h1 {
+            font-size: 2em;
+          }
+          span {
+            font-size: 0.675em;
+          }
         }
       `}
     </style>
