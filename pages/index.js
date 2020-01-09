@@ -56,7 +56,6 @@ const Page = () => {
           albums={albums}
           onClick={idx => {
             setSelectedIndex(idx);
-            inputRef.current.focus();
           }}
           selectedIndex={selectedIndex}
         />
@@ -91,7 +90,7 @@ const Page = () => {
           @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
             button {
               position: fixed;
-              bottom: 0;
+              bottom: -2px;
               left: 0;
               width: 100vw;
               padding: 20px;

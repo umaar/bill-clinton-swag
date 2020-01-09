@@ -163,7 +163,12 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
           ))}
         </div>
         {isLoading && <img className="loading" src="/images/loading.gif" />}
-        <img className="back-button" src="/images/backarrow.svg" onClick={() => setModal(false)} />
+        <img
+          className="back-button"
+          draggable="false"
+          src="/images/backarrow.svg"
+          onClick={() => setModal(false)}
+        />
       </form>
 
       <style jsx>
@@ -196,6 +201,7 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
           .back-button {
             display: none;
             cursor: pointer;
+            user-select: none;
           }
 
           .results {
