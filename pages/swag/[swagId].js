@@ -10,7 +10,9 @@ const Page = ({
     <Layout>
       <div className="container">
         <Header />
-        <img src={`https://s3.amazonaws.com/Clinton_Swag/${swagId}/swag.png`} />
+        <div>
+          <img src={`https://s3.amazonaws.com/Clinton_Swag/${swagId}/swag.png`} />
+        </div>
       </div>
 
       <style jsx>

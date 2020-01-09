@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import Perspective from 'perspective-transform';
-import useWindowSize from '../utils/window-size';
 
 const COORDS = [
   [107, 238, 262, 288, 67, 384, 212, 436],
@@ -13,24 +12,20 @@ const [WIDTH, HEIGHT] = [465, 683];
 const ALBUM_SIZE = 512;
 const CLASS_NAMES = ['one', 'two', 'three', 'four'];
 
-const useReload = () => {
-  const [count, setCount] = useState(0);
-  return () => {
-    setCount(count + 1);
-  };
-};
-
 export default ({ onClick, albums = [], selectedIndex = null }) => {
   const ref = useRef();
-  const reload = useReload();
-  const windowSize = useWindowSize();
+  const [count, setCount] = useState(0);
+  const width = (ref.current && ref.current.width) || 0;
 
   useEffect(() => {
-    reload();
-    setTimeout(reload, 100);
-  }, [JSON.stringify(windowSize)]);
+    if (!width) {
+      setTimeout(() => {
+        setCount(count + 1);
+      }, 10);
+    }
+  }, [count]);
 
-  const scale = ref.current && ref.current.width ? ref.current.width / 465.0 : 1.0;
+  const scale = width ? width / 465.0 : 1.0;
   let matrices = COORDS.map(
     dest =>
       Perspective(
@@ -43,7 +38,7 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
     <div className="wrapper">
       <img src="/images/clinton.png" ref={ref} />
       <div className="bg">
-        {ref.current &&
+        {width &&
           albums.map((x, idx) => (
             <img
               key={idx}
@@ -51,7 +46,7 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
               onClick={e => {
                 e.stopPropagation();
                 e.nativeEvent.stopImmediatePropagation();
-                onClick(idx === selectedIndex ? null : idx);
+                onClick(idx);
               }}
               className={'album ' + CLASS_NAMES[idx] + (idx === selectedIndex ? ' selected' : '')}
               src={x}
@@ -60,9 +55,11 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
       </div>
       <div className="fg">
         <img src="/images/clintonfront.png" />
-        <div className="watermark-wrapper">
-          <div className="watermark">PREVIEW</div>
-        </div>
+        {width && (
+          <div className="watermark-wrapper">
+            <div className="watermark">PREVIEW</div>
+          </div>
+        )}
       </div>
       <style jsx>
         {`

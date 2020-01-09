@@ -195,10 +195,6 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
 
           .back-button {
             display: none;
-            position: absolute;
-            top: 0.7em;
-            left: 0.7em;
-            width: 1.25em;
             cursor: pointer;
           }
 
@@ -242,15 +238,27 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
 
             form.open input {
               padding-left: 45px;
+              padding-top: 1.5em;
+              padding-bottom: 1.5em;
             }
 
             form.open .back-button {
               display: block;
+              position: absolute;
+              top: 1em;
+              left: 1em;
+              width: 1.25em;
             }
 
-            form.open .results {
+            form.open .loading {
+              top: 1em;
+              right: 1em;
+            }
+
+            form.open .results:not(:empty) {
               display: block;
               min-height: 75%;
+              border-bottom: none;
             }
           }
         `}

@@ -6,7 +6,8 @@ import SearchBar from '../components/searchbar';
 import SwagPreview from '../components/swag-preview';
 import ThreeDots from '../components/three-dots';
 
-const DEFAULT_IMAGE = '/images/placeholder.png';
+const DEFAULT_IMAGE =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 
 const Page = () => {
   const inputRef = useRef();
@@ -53,6 +54,7 @@ const Page = () => {
           albums={albums}
           onClick={idx => {
             setSelectedIndex(idx);
+            inputRef.current.focus();
           }}
           selectedIndex={selectedIndex}
         />
