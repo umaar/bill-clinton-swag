@@ -29,7 +29,9 @@ const Page = () => {
       .map(x => (x.startsWith('/') ? `${window.location.origin}${x}` : x))
       .map(x => `album_url=${encodeURIComponent(x)}`)
       .join('&');
-    window.location = url;
+    setTimeout(() => {
+      window.location = url;
+    }, 50);
   }
 
   return (
