@@ -36,7 +36,7 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
 
   return (
     <div className="wrapper">
-      <img src="/images/clinton.png" ref={ref} />
+      <img src="/images/clinton.png" style={{ filter: 'grayscale(1)' }} ref={ref} />
       <div className="bg">
         {width &&
           albums.map((x, idx) => (
@@ -54,7 +54,7 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
           ))}
       </div>
       <div className="fg">
-        <img src="/images/clintonfront.png" />
+        <img src="/images/clintonfront.png" style={{ filter: 'grayscale(1)' }} />
         {width && (
           <div className="watermark-wrapper">
             <div className="watermark">PREVIEW</div>
