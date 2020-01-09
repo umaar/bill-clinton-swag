@@ -2,159 +2,6 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import useDebounce from '../utils/debounce';
 import useAxios from '../utils/axios';
 
-export default forwardRef(({ onSelect, ...rest }, ref) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [active, setActive] = useState('active');
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const debouncedSearchTerm = useDebounce(searchTerm, 300);
-
-  const { data, error, loading: searchInFlight } = useAxios(
-    debouncedSearchTerm === ''
-      ? null
-      : {
-          method: 'get',
-          url: `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${debouncedSearchTerm}&api_key=ca14ba934a1e3c12f36c30bdf81f4f43&format=json&callback=`
-        }
-  );
-
-  const isLoading = debouncedSearchTerm !== searchTerm || searchInFlight;
-
-  let results = [];
-  if (data) {
-    results = data.results.albummatches.album.slice(0, 5).map(x => ({
-      url: x.image[3]['#text'],
-      album: x.name,
-      artist: x.artist
-    }));
-  }
-
-  return (
-    <>
-      <form
-        onKeyDown={e => {
-          if (e.key === 'ArrowDown') {
-            setSelectedIndex((selectedIndex + 1) % results.length);
-          }
-          if (e.key === 'n' && e.ctrlKey) {
-            setSelectedIndex((selectedIndex + 1) % results.length);
-            e.preventDefault();
-          }
-          if (e.key === 'ArrowUp') {
-            setSelectedIndex((selectedIndex - 1 + results.length) % results.length);
-          }
-          if (e.key === 'p' && e.ctrlKey) {
-            setSelectedIndex((selectedIndex - 1 + results.length) % results.length);
-            e.preventDefault();
-          }
-          if (e.key === 'Escape') {
-            ref.current.blur();
-          }
-          if (e.key === 'Tab') {
-            e.preventDefault();
-            if (e.shiftKey) {
-              setSelectedIndex((selectedIndex - 1 + results.length) % results.length);
-            } else {
-              setSelectedIndex((selectedIndex + 1) % results.length);
-            }
-          }
-        }}
-        onSubmit={e => {
-          e.preventDefault();
-          e.stopPropagation();
-          if (!isLoading && selectedIndex !== -1) {
-            onSelect(results[selectedIndex]);
-            setSelectedIndex(0);
-            ref.current.blur();
-          }
-        }}>
-        <input
-          className={active ? 'active' : ''}
-          tabIndex={0}
-          ref={ref}
-          type="text"
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          onBlur={e => {
-            setActive(false);
-          }}
-          onFocus={e => {
-            setActive(true);
-            setSelectedIndex(0);
-          }}
-          {...rest}
-        />
-        <div className="results">
-          {results.map((x, idx) => (
-            <SearchResult
-              key={idx}
-              result={x}
-              onMouseOver={e => setSelectedIndex(idx)}
-              onMouseDown={e => e.preventDefault()}
-              onClick={e => {
-                onSelect(x);
-                ref.current.blur();
-              }}
-              selected={idx === selectedIndex}
-            />
-          ))}
-        </div>
-        {isLoading && <img className="loading" src="/images/loading.gif" />}
-      </form>
-
-      <style jsx>
-        {`
-          form {
-            position: relative;
-            width: 465px;
-          }
-
-          input {
-            color: #333;
-            box-sizing: border-box;
-            padding: 1em 1.5em;
-            font-size: 0.75em;
-            border: 1px solid #ccc;
-            position: relative;
-            background: transparent;
-            width: 100%;
-            -webkit-appearance: none;
-            border-radius: 0;
-          }
-
-          .loading {
-            position: absolute;
-            top: 0.7em;
-            right: 0.7em;
-            width: 1.25em;
-          }
-
-          .results {
-            display: none;
-          }
-
-          input:focus:not(:placeholder-shown) + .results {
-            display: block;
-            position: absolute;
-            width: 100%;
-            z-index: 99;
-            border: 1px solid #ccc;
-            border-top: none;
-            background: white;
-            box-sizing: border-box;
-          }
-
-          @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
-            form {
-              align-self: stretch;
-              width: auto;
-            }
-          }
-        `}
-      </style>
-    </>
-  );
-});
-
 const SearchResult = ({ result: { artist, album, url }, selected, ...rest }) => {
   return (
     <div className={'result' + (selected ? ' selected' : '')} {...rest}>
@@ -210,3 +57,204 @@ const SearchResult = ({ result: { artist, album, url }, selected, ...rest }) => 
     </div>
   );
 };
+
+export default forwardRef(({ onSelect, ...rest }, ref) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [open, setOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+  const { data, error, loading: searchInFlight } = useAxios(
+    debouncedSearchTerm === ''
+      ? null
+      : {
+          method: 'get',
+          url: `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${debouncedSearchTerm}&api_key=ca14ba934a1e3c12f36c30bdf81f4f43&format=json&callback=`
+        }
+  );
+
+  const isLoading = debouncedSearchTerm !== searchTerm || searchInFlight;
+
+  let results = [];
+  if (data) {
+    results = data.results.albummatches.album.slice(0, 5).map(x => ({
+      url: x.image[3]['#text'],
+      album: x.name,
+      artist: x.artist
+    }));
+  }
+
+  function setModal(open) {
+    if (open) {
+      setOpen(open);
+      setSelectedIndex(0);
+      document.body.classList.add('modal-open');
+    } else {
+      setOpen(open);
+      setSelectedIndex(0);
+      document.body.classList.remove('modal-open');
+    }
+  }
+
+  return (
+    <>
+      <form
+        className={open ? 'open' : ''}
+        onKeyDown={e => {
+          if (e.key === 'ArrowDown') {
+            setSelectedIndex((selectedIndex + 1) % results.length);
+          }
+          if (e.key === 'n' && e.ctrlKey) {
+            setSelectedIndex((selectedIndex + 1) % results.length);
+            e.preventDefault();
+          }
+          if (e.key === 'ArrowUp') {
+            setSelectedIndex((selectedIndex - 1 + results.length) % results.length);
+          }
+          if (e.key === 'p' && e.ctrlKey) {
+            setSelectedIndex((selectedIndex - 1 + results.length) % results.length);
+            e.preventDefault();
+          }
+          if (e.key === 'Escape') {
+            ref.current.blur();
+          }
+          if (e.key === 'Tab') {
+            e.preventDefault();
+            if (e.shiftKey) {
+              setSelectedIndex((selectedIndex - 1 + results.length) % results.length);
+            } else {
+              setSelectedIndex((selectedIndex + 1) % results.length);
+            }
+          }
+        }}
+        onSubmit={e => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!isLoading && selectedIndex !== -1) {
+            onSelect(results[selectedIndex]);
+            setModal(false);
+            ref.current.blur();
+          }
+        }}>
+        <input
+          tabIndex={0}
+          ref={ref}
+          type="text"
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+          onFocus={e => setModal(true)}
+          {...rest}
+        />
+        <div className="results" onTouchStart={e => ref.current.blur()}>
+          {results.map((x, idx) => (
+            <SearchResult
+              key={idx}
+              result={x}
+              onMouseDown={e => ref.current.blur()}
+              onMouseOver={e => setSelectedIndex(idx)}
+              onMouseDown={e => e.preventDefault()}
+              onClick={e => {
+                onSelect(x);
+                setModal(false);
+                ref.current.blur();
+              }}
+              selected={idx === selectedIndex}
+            />
+          ))}
+        </div>
+        {isLoading && <img className="loading" src="/images/loading.gif" />}
+        <img className="back-button" src="/images/backarrow.svg" onClick={() => setModal(false)} />
+      </form>
+
+      <style jsx>
+        {`
+          form {
+            position: relative;
+            width: 465px;
+          }
+
+          input {
+            color: #333;
+            box-sizing: border-box;
+            padding: 1em 1.5em;
+            font-size: 0.75em;
+            border: 1px solid #ccc;
+            position: relative;
+            background: transparent;
+            width: 100%;
+            -webkit-appearance: none;
+            border-radius: 0;
+          }
+
+          .loading {
+            position: absolute;
+            top: 0.7em;
+            right: 0.7em;
+            width: 1.25em;
+          }
+
+          .back-button {
+            display: none;
+            position: absolute;
+            top: 0.7em;
+            left: 0.7em;
+            width: 1.25em;
+            cursor: pointer;
+          }
+
+          .results {
+            display: none;
+          }
+
+          form {
+            z-index: 99;
+          }
+
+          form.open .results:not(:empty) {
+            display: block;
+            position: absolute;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-top: none;
+            background: white;
+            box-sizing: border-box;
+          }
+
+          @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+            form {
+              align-self: stretch;
+              width: auto;
+            }
+
+            form.open {
+              position: fixed;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              width: 100%;
+              background: white;
+              z-index: 100;
+            }
+
+            form.open {
+              display: block;
+            }
+
+            form.open input {
+              padding-left: 45px;
+            }
+
+            form.open .back-button {
+              display: block;
+            }
+
+            form.open .results {
+              display: block;
+              min-height: 75%;
+            }
+          }
+        `}
+      </style>
+    </>
+  );
+});

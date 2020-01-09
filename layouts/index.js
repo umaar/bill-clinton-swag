@@ -26,6 +26,13 @@ export default ({ children }) => {
             box-sizing: border-box;
             font-family: helvetica;
           }
+
+          body.modal-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+          }
         `}
       </style>
     </>

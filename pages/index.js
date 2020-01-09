@@ -91,10 +91,11 @@ const Page = () => {
               left: 0;
               width: 100vw;
               padding: 20px;
+              padding-bottom: 27px;
               z-index: 99;
             }
             .container {
-              padding-bottom: 150px;
+              padding-bottom: 100px;
             }
           }
         `}
