@@ -45,7 +45,10 @@ const Page = () => {
           property="og:description"
           content="I did not have sexual relations with that record"
         />
-        <meta property="og:image" content="https://billclintonswag.com/images/clinton.png" />
+        <meta
+          property="og:image"
+          content="http://s3.amazonaws.com/Clinton_Swag/ubIFiBgLQO/swag.png"
+        />
       </Head>
       <div className="container">
         <Header />
