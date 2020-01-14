@@ -38,6 +38,14 @@ const Page = () => {
     <Layout>
       <Head>
         <title>Bill Clinton Swag</title>
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:creator" content="@thmsmlr" />
+        <meta property="og:title" content="Bill Clinton Swag" />
+        <meta
+          property="og:description"
+          content="I did not have sexual relations with that record"
+        />
+        <meta property="og:image" content="https://billclintonswag.com/images/clinton.png" />
       </Head>
       <div className="container">
         <Header />
