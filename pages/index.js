@@ -20,7 +20,7 @@ const Page = () => {
     DEFAULT_IMAGE
   ]);
 
-  const isComplete = albums.indexOf(DEFAULT_IMAGE) === -1;
+  const isComplete = albums.indexOf(DEFAULT_IMAGE) === -1 || true;
 
   function generateSwag() {
     setLoading(true);
@@ -41,10 +41,7 @@ const Page = () => {
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:creator" content="@thmsmlr" />
         <meta property="og:title" content="Bill Clinton Swag" />
-        <meta
-          property="og:description"
-          content="I did not have sexual relations with that record"
-        />
+        <meta property="og:description" content="I did not have sexual relations, for the record" />
         <meta
           property="og:image"
           content="http://s3.amazonaws.com/Clinton_Swag/ubIFiBgLQO/swag.png"
@@ -58,7 +55,6 @@ const Page = () => {
             const newAlbums = [...albums];
             newAlbums[selectedIndex] = album.url;
             setAlbums(newAlbums);
-            setSelectedIndex((selectedIndex + 1) % 4);
           }}
           placeholder="Search for Album..."
         />
@@ -95,7 +91,7 @@ const Page = () => {
             padding: 0.75em;
             font-weight: bold;
             margin-left: 0;
-            width: 250px;
+            width: 465px;
           }
 
           @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {

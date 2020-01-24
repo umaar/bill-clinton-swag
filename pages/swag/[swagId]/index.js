@@ -1,6 +1,7 @@
 import Head from 'next/head';
-import Layout from '../../layouts';
-import Header from '../../components/header';
+import Link from 'next/link';
+import Layout from '../../../layouts';
+import Header from '../../../components/header';
 
 const Page = ({ swagId }) => {
   const imageUrl = `https://s3.amazonaws.com/Clinton_Swag/${swagId}/swag.png`;
@@ -11,10 +12,7 @@ const Page = ({ swagId }) => {
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:creator" content="@thmsmlr" />
         <meta property="og:title" content="Bill Clinton Swag" />
-        <meta
-          property="og:description"
-          content="I did not have sexual relations with that record"
-        />
+        <meta property="og:description" content="I did not have sexual relations, for the record" />
         <meta property="og:image" content={imageUrl} />
       </Head>
       <div className="container">
@@ -22,6 +20,10 @@ const Page = ({ swagId }) => {
         <div>
           <img src={imageUrl} />
         </div>
+
+        <Link href={`/swag/${swagId}/shop`}>
+          <button>Shop</button>
+        </Link>
       </div>
 
       <style jsx>
@@ -38,6 +40,18 @@ const Page = ({ swagId }) => {
           img {
             max-width: 100%;
           }
+
+          button {
+            font-size: 18px;
+            color: white;
+            background-color: #0e233e;
+            border: none;
+            padding: 0.75em;
+            font-weight: bold;
+            margin-left: 0;
+            width: 465px;
+            margin-top: 20px;
+          }
         `}
       </style>
     </Layout>
@@ -45,7 +59,10 @@ const Page = ({ swagId }) => {
 };
 
 Page.getInitialProps = async ({ res, query: { swagId } }) => {
-  res.setHeader('Cache-Control', 's-maxage=31449600, stale-while-revalidate');
+  if (res) {
+    res.setHeader('Cache-Control', 's-maxage=31449600, stale-while-revalidate');
+  }
+
   return {
     swagId
   };

@@ -85,13 +85,12 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
   }
 
   function setModal(open) {
+    setSelectedIndex(0);
     if (open) {
       setOpen(open);
-      setSelectedIndex(0);
       document.body.classList.add('modal-open');
     } else {
       setOpen(open);
-      setSelectedIndex(0);
       document.body.classList.remove('modal-open');
     }
   }
@@ -131,6 +130,7 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
           e.preventDefault();
           e.stopPropagation();
           if (!isLoading && selectedIndex !== -1) {
+            setSelectedIndex(-1);
             onSelect(results[selectedIndex]);
             setModal(false);
             ref.current.blur();
@@ -150,10 +150,9 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
             <SearchResult
               key={idx}
               result={x}
-              onMouseDown={e => ref.current.blur()}
               onMouseOver={e => setSelectedIndex(idx)}
-              onMouseDown={e => e.preventDefault()}
               onClick={e => {
+                setSelectedIndex(-1);
                 onSelect(x);
                 setModal(false);
                 ref.current.blur();

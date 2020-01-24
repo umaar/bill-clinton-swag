@@ -5,7 +5,7 @@ export default () => (
     <Link href="/">
       <header className="root">
         <h1>Bill Clinton Swag</h1>
-        <span>"I did not have sexual relations with that record"</span>
+        <span>"I did not have sexual relations, for the record"</span>
       </header>
     </Link>
 
