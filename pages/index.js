@@ -20,7 +20,7 @@ const Page = () => {
     DEFAULT_IMAGE
   ]);
 
-  const isComplete = albums.indexOf(DEFAULT_IMAGE) === -1 || true;
+  const isComplete = albums.indexOf(DEFAULT_IMAGE) === -1;
 
   function generateSwag() {
     setLoading(true);
