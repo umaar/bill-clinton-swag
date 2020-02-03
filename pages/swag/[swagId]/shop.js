@@ -1,10 +1,32 @@
+import { useState, useRef } from 'react';
+import axios from 'axios';
 import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../layouts';
 import Header from '../../../components/header';
+import Button from '../../../components/button';
 
 const Page = ({ swagId }) => {
+  const emailRef = useRef();
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [complete, setComplete] = useState(false);
   const imageUrl = `https://s3.amazonaws.com/Clinton_Swag/${swagId}/swag.png`;
+
+  async function notifyEmail(email) {
+    const data = new FormData();
+    data.append('emailAddress', email);
+    setLoading(true);
+    const resp = await fetch(`/api/subscribe`, { method: 'POST', body: data });
+
+    if (!resp.ok) {
+      setError(resp.text());
+    } else {
+      setComplete(true);
+    }
+  }
+
   return (
     <Layout>
       <Head>
@@ -17,7 +39,34 @@ const Page = ({ swagId }) => {
       </Head>
       <div className="container">
         <Header />
-        <h3>COMING SOON!</h3>
+        <h3>Coming Soon!</h3>
+        <p>Enter your email to get notified when we launch</p>
+        {complete ? (
+          <div>Thank you!</div>
+        ) : (
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              notifyEmail(email);
+            }}>
+            <input
+              ref={emailRef}
+              type="email"
+              placeholder="email..."
+              value={email}
+              required
+              onChange={e => setEmail(e.target.value)}
+            />
+            <Button
+              disabled={
+                loading ||
+                !emailRef.current ||
+                (emailRef.current && !emailRef.current.validity.valid)
+              }>
+              {loading ? 'Loading...' : 'Notify Me'}
+            </Button>
+          </form>
+        )}
       </div>
 
       <style jsx>
@@ -34,6 +83,11 @@ const Page = ({ swagId }) => {
           img {
             max-width: 100%;
           }
+
+          input[type='email']:invalid {
+            color: red;
+          }
+
           @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
             button {
               position: fixed;

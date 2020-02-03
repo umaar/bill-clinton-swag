@@ -2,5 +2,8 @@
   "env": {
     "ACCESS_KEY_ID": "@bcs-access-key-id",
     "SECRET_ACCESS_KEY": "@bsc-secret-access-key"
-  }
+  },
+  "routes" : [
+    { "src" : "/api/subscribe", "dest" : "https://docs.google.com/forms/u/1/d/e/1FAIpQLSd4MSTTdW_RwpB0pJPERv_1fpCqJKG14mGS5K_m9uKzQz1b6w/formResponse" }
+  ]
 }
