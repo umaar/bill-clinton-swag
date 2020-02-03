@@ -6,12 +6,13 @@ import boto3
 import urllib.request
 import os
 
-from flask import Flask, jsonify, request, redirect
+from http.server import BaseHTTPRequestHandler
+from urllib.parse import parse_qs
+
 from PIL import Image
 from urllib.parse import urlparse
 from typing import List
 
-app = Flask(__name__)
 s3 = boto3.client(
     's3',
     aws_access_key_id=os.environ.get('ACCESS_KEY_ID'),
@@ -81,15 +82,19 @@ def main(album_urls: List[str]) -> io.BytesIO:
     return token
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    album_urls = request.args.getlist('album_url')
-    assert len(album_urls) == 4, album_urls
-    token = main(album_urls=album_urls)
-    url = urlparse(request.base_url)
-    output_url = f'{url.scheme}://{url.netloc}/swag/{token}'
-    return redirect(output_url, code=302)
+class handler(BaseHTTPRequestHandler):
+
+    def do_GET(self):
+        params = parse_qs(self.path.split('?', 1)[1])
+        album_urls = params.get('album_url', [])
+        assert len(album_urls) == 4, album_urls
+        token = main(album_urls=album_urls)
+        output_url = f'/swag/{token}'
+
+        self.send_response(302)
+        self.send_header('Location', output_url)
+        self.end_headers()
+        return
 
 
 if __name__ == '__main__':
