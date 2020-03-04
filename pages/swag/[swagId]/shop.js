@@ -30,7 +30,7 @@ const Page = ({ swagId }) => {
   return (
     <Layout>
       <Head>
-        <title>Bill Clinton Swag</title>
+        <title>Bill Clinton Swag | Shop</title>
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:creator" content="@thmsmlr" />
         <meta property="og:title" content="Bill Clinton Swag" />
