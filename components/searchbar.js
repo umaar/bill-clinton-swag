@@ -58,7 +58,11 @@ const SearchResult = ({ result: { artist, album, url }, selected, ...rest }) => 
   );
 };
 
-let APIKey = ['229711d2e395166fa34412c2ea8e5fca', 'ca14ba934a1e3c12f36c30bdf81f4f43'];
+let APIKey = [
+  '229711d2e395166fa34412c2ea8e5fca',
+  'ca14ba934a1e3c12f36c30bdf81f4f43',
+  '7bc383ee4b0d111c335f516fbc53e4eb'
+];
 APIKey = APIKey[Math.floor(Math.random() * APIKey.length)];
 
 export default forwardRef(({ onSelect, ...rest }, ref) => {
