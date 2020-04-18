@@ -58,6 +58,9 @@ const SearchResult = ({ result: { artist, album, url }, selected, ...rest }) => 
   );
 };
 
+let APIKey = ['229711d2e395166fa34412c2ea8e5fca', 'ca14ba934a1e3c12f36c30bdf81f4f43'];
+APIKey = APIKey[Math.floor(Math.random() * APIKey.length)];
+
 export default forwardRef(({ onSelect, ...rest }, ref) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
@@ -69,7 +72,7 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
       ? null
       : {
           method: 'get',
-          url: `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${debouncedSearchTerm}&api_key=ca14ba934a1e3c12f36c30bdf81f4f43&format=json&callback=`
+          url: `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${debouncedSearchTerm}&api_key=${APIKey}&format=json&callback=`
         }
   );
 
