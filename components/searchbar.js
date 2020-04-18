@@ -75,13 +75,18 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
 
   const isLoading = debouncedSearchTerm !== searchTerm || searchInFlight;
 
-  let results = [];
+  let results;
+
   if (data) {
-    results = data.results.albummatches.album.slice(0, 5).map(x => ({
+    results = data?.results?.albummatches?.album?.slice(0, 5).map(x => ({
       url: x.image[3]['#text'],
       album: x.name,
       artist: x.artist
     }));
+  }
+
+  if (!results) {
+    results = [];
   }
 
   function setModal(open) {
