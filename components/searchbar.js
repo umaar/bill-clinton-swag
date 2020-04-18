@@ -64,12 +64,15 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
+  let APIKey = ['229711d2e395166fa34412c2ea8e5fca', 'ca14ba934a1e3c12f36c30bdf81f4f43'];
+  APIKey = APIKey[Math.floor(Math.random() * APIKey.length)];
+
   const { data, error, loading: searchInFlight } = useAxios(
     debouncedSearchTerm === ''
       ? null
       : {
           method: 'get',
-          url: `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${debouncedSearchTerm}&api_key=ca14ba934a1e3c12f36c30bdf81f4f43&format=json&callback=`
+          url: `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${debouncedSearchTerm}&api_key=${APIKey}&format=json&callback=`
         }
   );
 
