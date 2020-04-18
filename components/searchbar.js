@@ -69,7 +69,7 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const debouncedSearchTerm = useDebounce(searchTerm, 600);
 
   const { data, error, loading: searchInFlight } = useAxios(
     debouncedSearchTerm === ''
