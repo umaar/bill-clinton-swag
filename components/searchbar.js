@@ -61,7 +61,9 @@ const SearchResult = ({ result: { artist, album, url }, selected, ...rest }) => 
 let APIKey = [
   '229711d2e395166fa34412c2ea8e5fca',
   'ca14ba934a1e3c12f36c30bdf81f4f43',
-  '7bc383ee4b0d111c335f516fbc53e4eb'
+  '7bc383ee4b0d111c335f516fbc53e4eb',
+  '09dce508ce274ebbc9ef6fa28ce0992b',
+  '8be5bb85485b06fe537663e5a8613ce0'
 ];
 APIKey = APIKey[Math.floor(Math.random() * APIKey.length)];
 
@@ -69,7 +71,7 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const debouncedSearchTerm = useDebounce(searchTerm, 600);
+  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
   const { data, error, loading: searchInFlight } = useAxios(
     debouncedSearchTerm === ''
