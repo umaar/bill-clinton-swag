@@ -61,8 +61,8 @@ def scale(coords, factor=4):
 
 
 def main(album_urls: List[str]) -> io.BytesIO:
-    bg = Image.open('./public/images/clinton.png').convert(mode='RGBA')
-    fg = Image.open('./public/images/clintonfront.png').convert(mode='RGBA')
+    bg = Image.open('./template/clinton.png').convert(mode='RGBA')
+    fg = Image.open('./template/clintonfront.png').convert(mode='RGBA')
 
     albums = [
         download_image(album_url).resize((bg.width, bg.height), resample=Image.ANTIALIAS)

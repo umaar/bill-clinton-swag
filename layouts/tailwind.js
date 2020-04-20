@@ -16,24 +16,6 @@ export default ({ children }) => {
         <script dangerouslySetInnerHTML={{ __html: gTagConfig }} />
       </Head>
       {children}
-
-      <style jsx global>
-        {`
-          html,
-          body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-
-          body.modal-open {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-          }
-        `}
-      </style>
     </>
   );
 };
