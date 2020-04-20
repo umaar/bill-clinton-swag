@@ -55,7 +55,7 @@ export default () => {
               <img
                 className="mx-auto"
                 style={{ maxHeight: '70vh' }}
-                src={`/api/shirt_mockup?swag=${swag}`}
+                src={swag ? `/api/shirt_mockup?swag=${swag}` : ''}
               />
               <img className="mx-auto" style={{ maxHeight: '70vh' }} src="/images/product-1.jpeg" />
               <img className="mx-auto" style={{ maxHeight: '70vh' }} src="/images/product-2.jpeg" />
