@@ -69,14 +69,14 @@ const Carousel = ({ className, children = [] }) => {
 
   return (
     <div className={className + ' relative'}>
-      <div className="carousel flex items-center" ref={carouselRef}>
+      <div className="carousel select-none flex items-center" ref={carouselRef}>
         {children.map((child, idx) => (
           <div key={idx} ref={childRefs[idx]} className="inline-block">
             {child}
           </div>
         ))}
       </div>
-      <div className="absolute bottom-0 mb-3 w-full flex justify-around">
+      <div className="absolute bottom-0 mb-3 w-full flex justify-around select-none">
         <ul className="flex">
           {children.map((child, idx) => (
             <li
@@ -92,12 +92,12 @@ const Carousel = ({ className, children = [] }) => {
         </ul>
       </div>
       <div
-        className="absolute left-0 pl-8 top-0 h-full items-center arrow-wrapper flex"
+        className="absolute left-0 pl-8 top-0 h-full items-center arrow-wrapper flex select-none"
         onClick={() => scrollToPage((pageIndex + children.length - 1) % children.length)}>
         <div className="left arrow" />
       </div>
       <div
-        className="absolute right-0 pr-8 top-0 h-full items-center arrow-wrapper flex"
+        className="absolute right-0 pr-8 top-0 h-full items-center arrow-wrapper flex select-none"
         onClick={() => scrollToPage((pageIndex + 1) % children.length)}>
         <div className="right arrow" />
       </div>
