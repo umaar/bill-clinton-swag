@@ -68,7 +68,9 @@ let APIKey = [
   '7976b2fd5da6813abceb741f30126e35',
   '6c943bcb8aba4fa326e5591cf60b65b9',
   '2ddf2c599c1841494a7adb663d0fdc13',
-  '16efe02d13a1909f7f7c562346aad882'
+  '16efe02d13a1909f7f7c562346aad882',
+  'e788dbf39763187673d818f7260cb360',
+  'a2c445722312220f29e3e4bc98268685'
 ];
 APIKey = APIKey[Math.floor(Math.random() * APIKey.length)];
 
