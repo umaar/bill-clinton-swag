@@ -7,7 +7,7 @@ const duration = 250;
 export default ({ children, open, onClose }) => {
   useLayoutEffect(() => {
     if (open) {
-      document.body.style.cssText = `position: fixed; top: -${window.scrollY}px;`;
+      document.body.style.cssText = `position: fixed; top: -${window.scrollY}px; width: 100%;`;
 
       return () => {
         const scrollY = document.body.style.top;

@@ -131,9 +131,10 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
           <div
             className={
               ' ' +
-              (open && results.length > 0
+              (open
                 ? ' block absolute w-full h-screen md:h-auto border border-gray-300 bg-white box-border'
-                : 'hidden')
+                : ' hidden') +
+              (results.length > 0 ? ' ' : ' block md:hidden')
             }
             onTouchStart={e => ref.current.blur()}>
             {results.map((x, idx) => (
