@@ -19,30 +19,44 @@ const SearchResult = ({ result: { artist, album, url }, selected, ...rest }) => 
   );
 };
 
+let APIKey = [
+  '229711d2e395166fa34412c2ea8e5fca',
+  'ca14ba934a1e3c12f36c30bdf81f4f43',
+  '7bc383ee4b0d111c335f516fbc53e4eb',
+  '09dce508ce274ebbc9ef6fa28ce0992b',
+  '8be5bb85485b06fe537663e5a8613ce0'
+];
+APIKey = APIKey[Math.floor(Math.random() * APIKey.length)];
+
 export default forwardRef(({ onSelect, ...rest }, ref) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
 
   const { data, error, loading: searchInFlight } = useAxios(
     debouncedSearchTerm === ''
       ? null
       : {
           method: 'get',
-          url: `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${debouncedSearchTerm}&api_key=ca14ba934a1e3c12f36c30bdf81f4f43&format=json&callback=`
+          url: `https://ws.audioscrobbler.com/2.0/?method=album.search&album=${debouncedSearchTerm}&api_key=${APIKey}&format=json&callback=`
         }
   );
 
   const isLoading = debouncedSearchTerm !== searchTerm || searchInFlight;
 
-  let results = [];
+  let results;
+
   if (data) {
-    results = data.results.albummatches.album.slice(0, 5).map(x => ({
+    results = data?.results?.albummatches?.album?.slice(0, 5).map(x => ({
       url: x.image[3]['#text'],
       album: x.name,
       artist: x.artist
     }));
+  }
+
+  if (!results) {
+    results = [];
   }
 
   function setModal(open) {
