@@ -14,26 +14,12 @@ export default ({ children }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35719589-1" />
         <script dangerouslySetInnerHTML={{ __html: gTagConfig }} />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
       </Head>
       {children}
-
-      <style jsx global>
-        {`
-          html,
-          body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-
-          body.modal-open {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-          }
-        `}
-      </style>
     </>
   );
 };

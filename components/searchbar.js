@@ -108,7 +108,7 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
           onChange={e => setSearchTerm(e.target.value)}
           onFocus={e => setModal(true)}
           className={
-            'sm:block text-sm border border-gray-400 w-full py-2 px-4 ' +
+            'appearance-none focus:outline-none sm:block text-sm border border-gray-400 w-full py-2 px-4 ' +
             (open ? 'pl-10 sm:pl-2' : '')
           }
           {...rest}
@@ -117,7 +117,7 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
           <div
             className={
               ' ' +
-              (open
+              (open && results.length > 0
                 ? ' block absolute w-full h-screen md:h-auto border border-gray-300 bg-white box-border'
                 : 'hidden')
             }

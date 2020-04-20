@@ -97,7 +97,7 @@ export default () => {
             <div className="mt-8">
               <a
                 className="block md:inline text-center w-full md:w-auto text-white bg-blue-900 px-8 py-2 font-medium"
-                href={`https://bill-clinton-swag.myshopify.com/cart/${selectedProduct.id}:1?attributes[swag]=5tMuddUOAg`}>
+                href={`https://bill-clinton-swag.myshopify.com/cart/${selectedProduct.id}:1?attributes[swag]=${swag}`}>
                 Buy now
               </a>
             </div>
