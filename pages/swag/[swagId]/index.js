@@ -14,7 +14,7 @@ const Page = ({ swagId }) => {
         <meta property="og:title" content="Bill Clinton Swag" />
         <meta property="og:description" content="I did not have sexual relations, for the record" />
         <meta property="og:image" content={imageUrl} />
-        <link rel="prefetch" href={`/api/shirt_mockup?swag=${swagId}`} />
+        {swagId && <link rel="prefetch" href={`/api/shirt_mockup?swag=${swagId}`} />}
       </Head>
       <div className="py-12 px-2 md:px-4 lg:px-6 max-w-screen-xl flex flex-col items-center mx-auto">
         <Header />
