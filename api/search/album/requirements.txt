@@ -1,4 +1,2 @@
 flask
-Pillow
-boto3
 requests
