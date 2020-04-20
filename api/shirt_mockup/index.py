@@ -35,6 +35,6 @@ def catch_all(path):
     swag = request.args.get('swag')
     img = main(swag)
     resp = make_response(send_file(img, attachment_filename='shirt.png', mimetype='image/png'))
-    resp.headers['Cache-Control'] = 's-maxage=31449600, immutable, stale-while-revalidate'
+    resp.headers['Cache-Control'] = 's-maxage=31449600, stale-while-revalidate'
     resp.headers['ETag'] = 'W/"foobar"'
     return resp
