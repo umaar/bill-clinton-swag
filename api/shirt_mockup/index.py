@@ -21,12 +21,7 @@ def main(swag_id) -> io.BytesIO:
     fg = fg.resize((int(fg.width / scale), int(fg.height / scale)), Image.ANTIALIAS)
     x = int(bg.width / 2.0) - int(fg.width / 2.0)
     y = int(bg.height / 2.0) - int(fg.height / 1.4)
-    # print(x, y)
-    # print(bg.width / 2)
-    # print(bg.height / 2)
-
     bg.paste(fg, (x, y), fg)
-    # bg = Image.alpha_composite(bg, fg)
     output = io.BytesIO()
     bg.save(output, format='png')
     output.seek(0)
@@ -40,5 +35,5 @@ def catch_all(path):
     swag = request.args.get('swag')
     img = main(swag)
     resp = make_response(send_file(img, attachment_filename='shirt.png', mimetype='image/png'))
-    resp.headers['Cache-Control'] = 's-maxage=31449600, stale-while-revalidate'
+    resp.headers['Cache-Control'] = 's-maxage=31449600, immutable, stale-while-revalidate'
     return resp
