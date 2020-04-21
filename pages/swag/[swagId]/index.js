@@ -31,7 +31,9 @@ const Page = ({ swagId }) => {
         <div className="grid gap-4 mt-8">
           <img src={imageUrl} />
           <Link href={`/shop?swag=${swagId}`}>
-            <button className="text-white bg-blue-900 p-3 text-lg font-bold">Shop</button>
+            <button className="text-white bg-blue-900 p-3 text-lg font-bold sticky bottom-0">
+              Shop
+            </button>
           </Link>
         </div>
       </div>
