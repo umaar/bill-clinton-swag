@@ -5,6 +5,7 @@ import Header from '../components/header';
 import SearchBar from '../components/searchbar';
 import SwagPreview from '../components/swag-preview';
 import ThreeDots from '../components/three-dots';
+import Footer from '../components/footer';
 
 const DEFAULT_IMAGE =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
@@ -89,6 +90,7 @@ const Page = () => {
           )}
         </div>
       </div>
+      <Footer />
     </Layout>
   );
 };

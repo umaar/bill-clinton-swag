@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Layout from '../../../layouts';
 import Header from '../../../components/header';
+import Footer from '../../../components/footer';
 
 import { useEffect } from 'react';
 
@@ -36,6 +37,7 @@ const Page = ({ swagId }) => {
             </button>
           </Link>
         </div>
+        <Footer />
       </div>
     </Layout>
   );
