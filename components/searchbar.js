@@ -4,56 +4,17 @@ import useAxios from '../utils/axios';
 
 const SearchResult = ({ result: { artist, album, url }, selected, ...rest }) => {
   return (
-    <div className={'result' + (selected ? ' selected' : '')} {...rest}>
-      <img src={url} />
-      <span>
-        <h3>{album}</h3>
-        <p>{artist}</p>
+    <div
+      className={
+        'flex items-center cursor-pointer p-2 border-b border-gray-300 overflow-hidden hover:bg-gray-200' +
+        (selected ? ' bg-gray-100' : '')
+      }
+      {...rest}>
+      <img className="w-16 mr-4" src={url} />
+      <span className="leading-snug">
+        <h3 className="font-semibold">{album}</h3>
+        <p className="text-gray-700">{artist}</p>
       </span>
-
-      <style jsx>
-        {`
-          .result {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            padding: 10px 10px;
-            border-bottom: 1px solid #eee;
-            overflow: hidden;
-            font-size: 0.8em;
-          }
-
-          img {
-            margin-right: 15px;
-            width: 64px;
-          }
-
-          h3,
-          p {
-            margin: 0;
-            margin-bottom: 0.2rem;
-          }
-
-          .result > span {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            flex-shrink: 1;
-          }
-
-          .result:last-child {
-            border-bottom: none;
-          }
-
-          .result:hover {
-            background: #eee;
-          }
-
-          .result.selected {
-            background: #eee;
-          }
-        `}
-      </style>
     </div>
   );
 };
@@ -99,7 +60,10 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
   return (
     <>
       <form
-        className={open ? 'open' : ''}
+        className={
+          'z-50 bg-white md:relative ' +
+          (open ? 'fixed top-0 left-0 w-screen sm:w-full sm:static' : 'relative')
+        }
         onKeyDown={e => {
           if (e.key === 'ArrowDown') {
             setSelectedIndex((selectedIndex + 1) % results.length);
@@ -144,131 +108,49 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           onFocus={e => setModal(true)}
+          className={
+            'appearance-none focus:outline-none sm:block text-sm border border-gray-400 w-full py-2 px-4 ' +
+            (open ? 'pl-10 sm:pl-2' : '')
+          }
           {...rest}
         />
-        <div className="results" onTouchStart={e => ref.current.blur()}>
-          {results.map((x, idx) => (
-            <SearchResult
-              key={idx}
-              result={x}
-              onMouseOver={e => setSelectedIndex(idx)}
-              onClick={e => {
-                setSelectedIndex(-1);
-                onSelect(x);
-                setModal(false);
-                ref.current.blur();
-              }}
-              selected={idx === selectedIndex}
-            />
-          ))}
-        </div>
-        {isLoading && <img className="loading" src="/images/loading.gif" />}
+        {results && (
+          <div
+            className={
+              ' ' +
+              (open
+                ? ' block absolute w-full h-screen md:h-auto border border-gray-300 bg-white box-border'
+                : ' hidden') +
+              (results.length > 0 ? ' ' : ' block md:hidden')
+            }
+            onTouchStart={e => ref.current.blur()}>
+            {results.map((x, idx) => (
+              <SearchResult
+                key={idx}
+                result={x}
+                onMouseOver={e => setSelectedIndex(idx)}
+                onClick={e => {
+                  setSelectedIndex(-1);
+                  onSelect(x);
+                  setModal(false);
+                  ref.current.blur();
+                }}
+                selected={idx === selectedIndex}
+              />
+            ))}
+          </div>
+        )}
+        {isLoading && <img className="absolute w-6 top-0 right-0 m-2" src="/images/loading.gif" />}
         <img
-          className="back-button"
+          className={
+            'absolute left-0 top-0 w-6 m-2 select-none cursor-pointer md:hidden ' +
+            (open ? '' : 'hidden')
+          }
           draggable="false"
           src="/images/backarrow.svg"
           onClick={() => setModal(false)}
         />
       </form>
-
-      <style jsx>
-        {`
-          form {
-            position: relative;
-            width: 465px;
-          }
-
-          input {
-            color: #333;
-            box-sizing: border-box;
-            padding: 1em 1.5em;
-            font-size: 0.75em;
-            border: 1px solid #ccc;
-            position: relative;
-            background: transparent;
-            width: 100%;
-            -webkit-appearance: none;
-            border-radius: 0;
-          }
-
-          .loading {
-            position: absolute;
-            top: 0.7em;
-            right: 0.7em;
-            width: 1.25em;
-          }
-
-          .back-button {
-            display: none;
-            cursor: pointer;
-            user-select: none;
-          }
-
-          .results {
-            display: none;
-          }
-
-          form {
-            z-index: 99;
-          }
-
-          form.open .results:not(:empty) {
-            display: block;
-            position: absolute;
-            width: 100%;
-            border: 1px solid #ccc;
-            border-top: none;
-            background: white;
-            box-sizing: border-box;
-          }
-
-          @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
-            form {
-              align-self: stretch;
-              width: auto;
-            }
-
-            form.open {
-              position: fixed;
-              top: 0;
-              left: 0;
-              bottom: 0;
-              width: 100%;
-              background: white;
-              z-index: 100;
-            }
-
-            form.open {
-              display: block;
-            }
-
-            form.open input {
-              padding-left: 45px;
-              padding-top: 1.5em;
-              padding-bottom: 1.5em;
-            }
-
-            form.open .back-button {
-              display: block;
-              position: absolute;
-              top: 1em;
-              left: 1em;
-              width: 1.25em;
-            }
-
-            form.open .loading {
-              top: 1em;
-              right: 1em;
-            }
-
-            form.open .results:not(:empty) {
-              display: block;
-              min-height: 75%;
-              border-bottom: none;
-            }
-          }
-        `}
-      </style>
     </>
   );
 });

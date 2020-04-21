@@ -3,42 +3,17 @@ import Link from 'next/link';
 export default () => (
   <>
     <Link href="/">
-      <header className="root">
-        <h1>Bill Clinton Swag</h1>
-        <span>"I did not have sexual relations, for the record"</span>
-      </header>
+      <a className="flex items-center ">
+        <header className="text-center cursor-pointer text-gray-900">
+          <h1 className="text-3xl xs:text-4xl sm:text-5xl font-bold leading-none tracking-wide">
+            Bill Clinton Swag
+          </h1>
+          <span className="text-xs sm:text-base font-light block xs:-mt-1 -ml-6 sm:-ml-4 italic">
+            "I did not have sexual relations,
+            <br className="xs:hidden" /> for the record"
+          </span>
+        </header>
+      </a>
     </Link>
-
-    <style jsx>
-      {`
-        .root {
-          margin: 2rem 0;
-          align-self: center;
-          cursor: pointer;
-        }
-        h1 {
-          font-size: 3em;
-          line-height: 0.95;
-          margin: 0;
-          padding-top: 25px;
-        }
-        span {
-          display: block;
-          text-align: right;
-          margin-right: 2.2em;
-          font-style: italic;
-          font-weight: 300;
-        }
-
-        @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
-          h1 {
-            font-size: 2em;
-          }
-          span {
-            font-size: 0.675em;
-          }
-        }
-      `}
-    </style>
   </>
 );

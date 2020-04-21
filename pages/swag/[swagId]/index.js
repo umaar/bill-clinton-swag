@@ -3,8 +3,19 @@ import Link from 'next/link';
 import Layout from '../../../layouts';
 import Header from '../../../components/header';
 
+import { useEffect } from 'react';
+
 const Page = ({ swagId }) => {
   const imageUrl = `https://s3.amazonaws.com/Clinton_Swag/${swagId}/swag.png`;
+
+  // Precache the generated tshirt on the next page
+  useEffect(() => {
+    if (swagId) {
+      let img = new Image();
+      img.src = `/api/shirt_mockup?swag=${swagId}`;
+    }
+  }, [swagId]);
+
   return (
     <Layout>
       <Head>
@@ -15,45 +26,15 @@ const Page = ({ swagId }) => {
         <meta property="og:description" content="I did not have sexual relations, for the record" />
         <meta property="og:image" content={imageUrl} />
       </Head>
-      <div className="container">
+      <div className="py-12 px-2 md:px-4 lg:px-6 max-w-screen-xl flex flex-col items-center mx-auto">
         <Header />
-        <div>
+        <div className="grid gap-4 mt-8">
           <img src={imageUrl} />
+          <Link href={`/shop?swag=${swagId}`}>
+            <button className="text-white bg-blue-900 p-3 text-lg font-bold">Shop</button>
+          </Link>
         </div>
-
-        <Link href={`/swag/${swagId}/shop`}>
-          <button>Shop</button>
-        </Link>
       </div>
-
-      <style jsx>
-        {`
-          .container {
-            margin: 0 auto;
-            max-width: 900px;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            padding: 0 25px;
-            padding-bottom: 150px;
-          }
-          img {
-            max-width: 100%;
-          }
-
-          button {
-            font-size: 18px;
-            color: white;
-            background-color: #0e233e;
-            border: none;
-            padding: 0.75em;
-            font-weight: bold;
-            margin-left: 0;
-            width: 465px;
-            margin-top: 20px;
-          }
-        `}
-      </style>
     </Layout>
   );
 };

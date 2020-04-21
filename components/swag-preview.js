@@ -26,6 +26,7 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
   }, [count]);
 
   const scale = width ? width / 465.0 : 1.0;
+
   let matrices = COORDS.map(
     dest =>
       Perspective(
@@ -35,9 +36,14 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
   ).map(x => [x[0], x[3], 0, x[6], x[1], x[4], 0, x[7], 0, 0, 1, 0, x[2], x[5], 0, x[8]].join(','));
 
   return (
-    <div className="wrapper">
-      <img src="/images/clinton.png" style={{ filter: 'grayscale(1)' }} ref={ref} />
-      <div className="bg">
+    <div className="relative inline-block overflow-hidden">
+      <img
+        src="/images/clinton.png"
+        style={{ filter: 'grayscale(1)' }}
+        className="relative z-10 block pointer-events-none select-none max-w-full"
+        ref={ref}
+      />
+      <div className="absolute inset-0 z-20">
         {width &&
           albums.map((x, idx) => (
             <img
@@ -48,113 +54,37 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
                 e.nativeEvent.stopImmediatePropagation();
                 onClick(idx);
               }}
-              className={'album ' + CLASS_NAMES[idx] + (idx === selectedIndex ? ' selected' : '')}
+              className="max-w-none border-blue-700 absolute top-0 left-0 box-border"
+              style={{
+                transform: `matrix3d(${matrices[idx]})`,
+                transformOrigin: '0px 0px 0px',
+                borderWidth: idx === selectedIndex ? '15px' : '0',
+                width: `${ALBUM_SIZE}px`,
+                height: `${ALBUM_SIZE}px`
+              }}
               src={x}
             />
           ))}
       </div>
-      <div className="fg">
-        <img src="/images/clintonfront.png" style={{ filter: 'grayscale(1)' }} />
+      <div className="absolute inset-0 z-30 pointer-events-none select-none">
+        <img
+          className="pointer-events-none max-w-full"
+          src="/images/clintonfront.png"
+          style={{ filter: 'grayscale(1)' }}
+        />
         {width && (
-          <div className="watermark-wrapper">
-            <div className="watermark">PREVIEW</div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div
+              className="font-bold text-6xl"
+              style={{
+                color: 'rgba(255,255,255,0.3)',
+                transform: `rotate(45deg) scale(${scale})`
+              }}>
+              PREVIEW
+            </div>
           </div>
         )}
       </div>
-      <style jsx>
-        {`
-          .wrapper {
-            position: relative;
-            display: inline-block;
-            overflow: hidden;
-            margin: 25px 0;
-          }
-
-          .watermark-wrapper {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-
-          .watermark {
-            color: rgba(255, 255, 255, 0.3);
-            font-weight: bold;
-            letter-spacing: 1px;
-            transform: rotate(45deg) scale(${scale});
-            font-size: 80px;
-          }
-
-          .wrapper > img {
-            position: relative;
-            z-index: 1;
-            display: block;
-            pointer-events: none;
-            user-select: none;
-            max-width: 100%;
-          }
-
-          .bg {
-            position: absolute;
-            z-index: 2;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-          }
-
-          .fg {
-            position: absolute;
-            z-index: 9;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-            user-select: none;
-          }
-
-          .fg > img {
-            pointer-events: none;
-            max-width: 100%;
-          }
-
-          .album {
-            top: 0;
-            left: 0;
-            position: absolute;
-            z-index: 7;
-            width: ${ALBUM_SIZE}px;
-            height: ${ALBUM_SIZE}px;
-            transform-origin: 0px 0px 0px;
-            box-sizing: border-box;
-          }
-
-          .album.selected {
-            border: 15px solid #265da5;
-          }
-
-          .album.one {
-            transform: matrix3d(${matrices[0]});
-          }
-
-          .album.two {
-            transform: matrix3d(${matrices[1]});
-          }
-
-          .album.three {
-            transform: matrix3d(${matrices[2]});
-          }
-
-          .album.four {
-            transform: matrix3d(${matrices[3]});
-          }
-        `}
-      </style>
     </div>
   );
 };

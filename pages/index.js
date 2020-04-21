@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Layout from '../layouts';
 import Header from '../components/header';
@@ -11,6 +11,7 @@ const DEFAULT_IMAGE =
 
 const Page = () => {
   const inputRef = useRef();
+  const buttonRef = useRef();
   const [loading, setLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [albums, setAlbums] = useState([
@@ -21,6 +22,16 @@ const Page = () => {
   ]);
 
   const isComplete = albums.indexOf(DEFAULT_IMAGE) === -1;
+
+  useEffect(() => {
+    if (isComplete) {
+      window.scrollTo({
+        top: buttonRef.current.offsetTop,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
+  }, [isComplete]);
 
   function generateSwag() {
     setLoading(true);
@@ -47,69 +58,37 @@ const Page = () => {
           content="http://s3.amazonaws.com/Clinton_Swag/ubIFiBgLQO/swag.png"
         />
       </Head>
-      <div className="container">
+      <div className="py-12 px-2 md:px-4 lg:px-6 max-w-screen-xl flex flex-col items-center mx-auto">
         <Header />
-        <SearchBar
-          ref={inputRef}
-          onSelect={album => {
-            const newAlbums = [...albums];
-            newAlbums[selectedIndex] = album.url;
-            setAlbums(newAlbums);
-          }}
-          placeholder="Search for Album..."
-        />
+        <div className="grid gap-4 mt-8">
+          <SearchBar
+            ref={inputRef}
+            onSelect={album => {
+              const newAlbums = [...albums];
+              newAlbums[selectedIndex] = album.url;
+              setAlbums(newAlbums);
+              setSelectedIndex(selectedIndex + (1 % 4));
+            }}
+            placeholder="Search for Album..."
+          />
 
-        <SwagPreview
-          albums={albums}
-          onClick={idx => {
-            setSelectedIndex(idx);
-          }}
-          selectedIndex={selectedIndex}
-        />
-
-        {isComplete && (
-          <button onClick={generateSwag}>{loading ? <ThreeDots /> : 'Generate Swag'}</button>
-        )}
+          <SwagPreview
+            albums={albums}
+            onClick={idx => {
+              setSelectedIndex(idx);
+            }}
+            selectedIndex={selectedIndex}
+          />
+          {isComplete && (
+            <button
+              ref={buttonRef}
+              className="text-white bg-blue-900 p-3 text-lg font-bold"
+              onClick={generateSwag}>
+              {loading ? <ThreeDots /> : 'Generate Swag'}
+            </button>
+          )}
+        </div>
       </div>
-
-      <style jsx>
-        {`
-          .container {
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            padding: 0 25px;
-            max-width: 900px;
-          }
-
-          button {
-            font-size: 18px;
-            color: white;
-            background-color: #0e233e;
-            border: none;
-            padding: 0.75em;
-            font-weight: bold;
-            margin-left: 0;
-            width: 465px;
-          }
-
-          @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
-            button {
-              position: fixed;
-              bottom: -2px;
-              left: 0;
-              width: 100vw;
-              padding: 20px;
-              padding-bottom: 27px;
-              z-index: 99;
-            }
-            .container {
-              padding-bottom: 100px;
-            }
-          }
-        `}
-      </style>
     </Layout>
   );
 };
