@@ -5,6 +5,7 @@ import string
 import boto3
 import urllib.request
 import os
+import requests
 
 from flask import Flask, jsonify, request, redirect
 from PIL import Image
@@ -53,7 +54,7 @@ COEFFS = [
 
 def download_image(url):
     """Download a PIL image from a url"""
-    return Image.open(io.BytesIO(urllib.request.urlopen(url).read())).convert(mode='RGBA')
+    return Image.open(io.BytesIO(requests.get(url).content)).convert(mode='RGBA')
 
 
 def scale(coords, factor=4):
