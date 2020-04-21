@@ -30,7 +30,7 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
       ? null
       : {
           method: 'get',
-          url: `/api/search/album?q=${debouncedSearchTerm}`
+          url: `/api/search/album?q=${debouncedSearchTerm.toLowerCase()}`
         }
   );
 

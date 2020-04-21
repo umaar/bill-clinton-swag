@@ -2,7 +2,7 @@ import requests
 import re
 
 from bs4 import BeautifulSoup
-from flask import Flask, jsonify, request, redirect
+from flask import Flask, jsonify, request, redirect, make_response
 
 app = Flask(__name__)
 
@@ -11,7 +11,9 @@ app = Flask(__name__)
 @app.route('/<path:path>')
 def catch_all(path):
     q = request.args.get('q')
-    return jsonify(search(q))
+    resp = jsonify(search(q))
+    resp.headers['Cache-Control'] = 's-maxage=86400, stale-while-revalidate'
+    return resp
 
 
 def search(query):
