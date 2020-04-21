@@ -67,7 +67,7 @@ const Page = () => {
               const newAlbums = [...albums];
               newAlbums[selectedIndex] = album.url;
               setAlbums(newAlbums);
-              setSelectedIndex((selectedIndex + 1) % 4));
+              setSelectedIndex((selectedIndex + 1) % 4);
             }}
             placeholder="Search for Album..."
           />
