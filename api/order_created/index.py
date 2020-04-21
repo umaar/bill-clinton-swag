@@ -21,8 +21,6 @@ def catch_all(path):
     if 'swag' not in attributes:
         return 'Not a order i care about'
 
-    time.sleep(20)
-
     swag_id = attributes['swag']
     personalize_order(order_number, swag_id)
 
