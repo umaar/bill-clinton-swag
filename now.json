@@ -5,8 +5,15 @@
     "PRINTFUL_API_KEY": "@bcs-printful-api-key"
   },
   "functions": {
+    "api/image/index.py": {
+      "memory": 1024
+    },
+    "api/search/album/index.py": {
+      "memory": 128
+    },
     "api/**/*.py": {
-      "excludeFiles": "{.cache,node_modules,.now,.git,public}/**"
+      "excludeFiles": "{.cache,node_modules,.now,.git,public}/**",
+      "memory": 256
     }
   },
   "routes" : [
