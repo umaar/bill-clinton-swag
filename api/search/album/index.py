@@ -1,5 +1,7 @@
 import requests
+import re
 
+from bs4 import BeautifulSoup
 from flask import Flask, jsonify, request, redirect
 
 app = Flask(__name__)
@@ -9,9 +11,24 @@ app = Flask(__name__)
 @app.route('/<path:path>')
 def catch_all(path):
     q = request.args.get('q')
-    resp = requests.get(f'https://genius.com/api/search/album?page=1&q={q}')
-    resp.raise_for_status()
-    results = resp.json()
-    results = results['response']['sections'][0]['hits']
+    return jsonify(search(q))
 
-    return jsonify(results)
+
+def search(query):
+    resp = requests.get(f'https://www.last.fm/search/albums?q={query}')
+    resp.raise_for_status()
+
+    soup = BeautifulSoup(resp.content)
+
+    return [
+        {
+            'url': re.sub('(\d+s)', '100s',
+                          x.find('img').attrs['src']),
+            'album': x.find('h4').a.text,
+            'artist': x.find('p').a.text,
+        } for x in soup.findAll('div', {'class': 'album-result-inner'})
+    ]
+
+
+if __name__ == '__main__':
+    print(search('city of the weak'))

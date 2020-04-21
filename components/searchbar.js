@@ -78,11 +78,7 @@ export default forwardRef(({ onSelect, ...rest }, ref) => {
   let results;
 
   if (data) {
-    results = data?.slice(0, 5).map(x => ({
-      url: x.result.cover_art_thumbnail_url,
-      album: x.result.name,
-      artist: x.result.artist.name
-    }));
+    results = data?.slice(0, 5).map(x => x);
   }
 
   if (!results) {
