@@ -39,7 +39,7 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
     <div className="relative inline-block overflow-hidden">
       <img
         src="/images/clinton.png"
-        style={{ filter: 'grayscale(1) sepia(100%) hue-rotate(185deg)' }}
+        style={{ filter: 'grayscale(1)' }}
         className="relative z-10 block pointer-events-none select-none max-w-full"
         ref={ref}
       />
@@ -70,7 +70,7 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
         <img
           className="pointer-events-none max-w-full"
           src="/images/clintonfront.png"
-          style={{ filter: 'grayscale(1) sepia(100%) hue-rotate(185deg)' }}
+          style={{ filter: 'grayscale(1)' }}
         />
         {width && (
           <div className="absolute inset-0 flex items-center justify-center">

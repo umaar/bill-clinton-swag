@@ -2,6 +2,7 @@ import pprint
 import requests
 import base64
 import os
+import time
 
 from flask import Flask, jsonify, request, redirect
 
@@ -19,6 +20,8 @@ def catch_all(path):
 
     if 'swag' not in attributes:
         return 'Not a order i care about'
+
+    time.sleep(20)
 
     swag_id = attributes['swag']
     personalize_order(order_number, swag_id)

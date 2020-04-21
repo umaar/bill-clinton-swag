@@ -85,7 +85,7 @@ const Carousel = ({ className, children = [] }) => {
               onClick={() => scrollToPage(idx)}
               style={{
                 backgroundColor:
-                  pageIndex === idx ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.4)'
+                  pageIndex === idx ? 'rgba(162, 182, 208, 0.5)' : 'rgba(211,220,231,0.4)'
               }}
             />
           ))}
@@ -123,7 +123,7 @@ const Carousel = ({ className, children = [] }) => {
             border-width: 0 6px 6px 0;
             display: inline-block;
             padding: 6px;
-            border-color: rgba(255, 255, 255, 0.5);
+            border-color: rgba(162, 182, 208, 0.5);
           }
 
           .arrow-wrapper {

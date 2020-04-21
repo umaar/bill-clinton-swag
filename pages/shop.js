@@ -57,9 +57,8 @@ export default () => {
                 style={{ maxHeight: '70vh' }}
                 src={swag ? `/api/shirt_mockup?swag=${swag}` : ''}
               />
-              <img className="mx-auto" style={{ maxHeight: '70vh' }} src="/images/product-1.jpeg" />
-              <img className="mx-auto" style={{ maxHeight: '70vh' }} src="/images/product-2.jpeg" />
               <img className="mx-auto" style={{ maxHeight: '70vh' }} src="/images/product-3.jpeg" />
+              <img className="mx-auto" style={{ maxHeight: '70vh' }} src="/images/product-2.jpeg" />
             </Carousel>
           </div>
           <div className="md:w-1/2">
@@ -94,6 +93,7 @@ export default () => {
             <p className="mt-3">
               $35 <span className="text-gray-700">(Free International Shipping)</span>
             </p>
+            <p className="mt-3">It's white. It's 100% cotton. It's got Bill Clinton on it.</p>
             <div className="mt-8">
               <a
                 className="block md:inline text-center w-full md:w-auto text-white bg-blue-900 px-8 py-2 font-medium"
