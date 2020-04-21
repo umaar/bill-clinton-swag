@@ -15,5 +15,5 @@
         "dest" : "https://docs.google.com/forms/u/1/d/e/1FAIpQLSd4MSTTdW_RwpB0pJPERv_1fpCqJKG14mGS5K_m9uKzQz1b6w/formResponse"
     }
   ],
-  "regions" : "all"
+  "regions" : ["all"]
 }
