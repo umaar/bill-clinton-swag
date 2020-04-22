@@ -24,7 +24,7 @@ def search(query):
 
     return [
         {
-            'url': re.sub('(\d+s)', '100s',
+            'url': re.sub('(\d+s)', 'avatar170s',
                           x.find('img').attrs['src']),
             'album': x.find('h4').a.text,
             'artist': x.find('p').a.text,
