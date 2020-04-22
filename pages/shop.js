@@ -41,8 +41,36 @@ export default () => {
         </Link>
       </div>
 
-      <div className="md:mt-12 px-4 md:px-6 lg:px-8 max-w-screen-lg flex flex-col items-center mx-auto">
-        <div className="md:flex mt-3 font-light tracking-wider">
+      <div className="mt-6 px-4 md:px-6 lg:px-8 max-w-screen-lg flex flex-col items-center mx-auto">
+        <div className="border rounded border-yellow-700 bg-yellow-100 text-yellow-900 px-4 py-2 text-sm">
+          <div className="flex">
+            <div>
+              <svg
+                viewBox="0 0 20 20"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 mt-1">
+                <g stroke="none" stroke-width="1" fill="currentColor" fillRule="evenodd">
+                  <g id="icon-shape">
+                    <path
+                      d="M2.92893219,17.0710678 C6.83417511,20.9763107 13.1658249,20.9763107 17.0710678,17.0710678 C20.9763107,13.1658249 20.9763107,6.83417511 17.0710678,2.92893219 C13.1658249,-0.976310729 6.83417511,-0.976310729 2.92893219,2.92893219 C-0.976310729,6.83417511 -0.976310729,13.1658249 2.92893219,17.0710678 Z M15.6568542,15.6568542 C18.7810486,12.5326599 18.7810486,7.46734008 15.6568542,4.34314575 C12.5326599,1.21895142 7.46734008,1.21895142 4.34314575,4.34314575 C1.21895142,7.46734008 1.21895142,12.5326599 4.34314575,15.6568542 C7.46734008,18.7810486 12.5326599,18.7810486 15.6568542,15.6568542 Z M9,5 L11,5 L11,11 L9,11 L9,5 Z M9,13 L11,13 L11,15 L9,15 L9,13 Z"
+                      id="Combined-Shape"></path>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <div className="ml-2" style={{ marginTop: '2px' }}>
+              <h3 className="font-semibold">Delayed Shipping</h3>
+              <p>
+                We're open for business, but due to covid-19 our print facilities are operating at
+                reduced capacity and are working through a backlog of orders. We ask for your
+                patience with any temporary shipping delays. We will notify customers of expected
+                shipping times via email.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="md:flex mt-6 font-light tracking-wider">
           <div className="md:mr-6 md:w-1/2">
             <div className="md:hidden mb-4">
               <div className="flex justify-between leading-snug">
