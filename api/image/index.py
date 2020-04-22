@@ -1,6 +1,7 @@
 import io
 # import numpy
 import random
+import time
 import string
 import boto3
 import urllib.request
@@ -50,11 +51,40 @@ COEFFS = [
 #     B = numpy.array(source_coords).reshape(8)
 #     res = numpy.dot(numpy.linalg.inv(A.T * A) * A.T, B)
 #     return numpy.array(res).reshape(8)
+"""
+Example error:
+http://localhost:3000/api/image?album_url=https%3A%2F%2Fbill-clinton-swag-bun8phl3y.now.sh%2Fi%2Fu%2Favatar170s%2F2c391155c6cb1805af3373a513045780.jpg&album_url=https%3A%2F%2Fbill-clinton-swag-bun8phl3y.now.sh%2Fi%2Fu%2Favatar170s%2F1366d9c6e5bc4803ac9e266c623aee35.jpg&album_url=https%3A%2F%2Fbill-clinton-swag-bun8phl3y.now.sh%2Fi%2Fu%2Favatar170s%2Fc064043b8bd34db0a2d4d5dd4a4e7438.jpg&album_url=https%3A%2F%2Fbill-clinton-swag-bun8phl3y.now.sh%2Fi%2Fu%2Favatar170s%2F518496fbd99a95c2d8f4c989b86b94aa.jpg
+"""
 
 
+def retry(times=3):
+
+    def _retry(f):
+
+        def y(*args, **kwargs):
+            for i in range(3):
+                try:
+                    return f(*args, **kwargs)
+                except Exception as e:
+                    if i + 1 == times:
+                        raise
+                    else:
+                        print(e)
+                        time.sleep(1)
+
+        return y
+
+    return _retry
+
+
+@retry(times=3)
 def download_image(url):
     """Download a PIL image from a url"""
-    return Image.open(io.BytesIO(requests.get(url).content)).convert(mode='RGBA')
+    resp = requests.get(url)
+    print(url, resp)
+    if resp.status_code > 300:
+        print(resp.text)
+    return Image.open(io.BytesIO(resp.content)).convert(mode='RGBA')
 
 
 def scale(coords, factor=4):
