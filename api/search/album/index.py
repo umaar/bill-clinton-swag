@@ -31,7 +31,7 @@ def search(query, base_url='http://localhost:300'):
     return [
         {
             'url':
-            re.sub('(\d+s)', 'avatar170s',
+            re.sub('(\d+s)', '300x300',
                    x.find('img').attrs['src']
                   ).replace('https://lastfm.freetls.fastly.net/i/', f'{base_url}/i/'),
             'album':

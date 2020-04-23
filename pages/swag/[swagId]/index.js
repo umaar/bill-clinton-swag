@@ -1,12 +1,16 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Layout from '../../../layouts';
 import Header from '../../../components/header';
 import Footer from '../../../components/footer';
 
 import { useEffect } from 'react';
 
-const Page = ({ swagId }) => {
+const Page = () => {
+  const {
+    query: { swagId }
+  } = useRouter();
   const imageUrl = `https://s3.amazonaws.com/Clinton_Swag/${swagId}/swag.png`;
 
   // Precache the generated tshirt on the next page
@@ -30,27 +34,21 @@ const Page = ({ swagId }) => {
       <div className="py-12 px-2 md:px-4 lg:px-6 max-w-screen-xl flex flex-col items-center mx-auto">
         <Header />
         <div className="grid gap-4 mt-8">
-          <img src={imageUrl} />
-          <Link href={`/shop?swag=${swagId}`}>
-            <button className="text-white bg-blue-900 p-3 text-lg font-bold sticky bottom-0">
-              Shop
-            </button>
-          </Link>
+          {swagId && (
+            <>
+              <img src={imageUrl} />
+              <Link href={`/shop?swag=${swagId}`}>
+                <button className="text-white bg-blue-900 p-3 text-lg font-bold sticky bottom-0">
+                  Shop
+                </button>
+              </Link>
+            </>
+          )}
         </div>
         <Footer />
       </div>
     </Layout>
   );
-};
-
-Page.getInitialProps = async ({ res, query: { swagId } }) => {
-  if (res) {
-    res.setHeader('Cache-Control', 's-maxage=31449600, stale-while-revalidate');
-  }
-
-  return {
-    swagId
-  };
 };
 
 export default Page;

@@ -3,11 +3,8 @@ export default () => {
     <footer className="mt-16">
       <div className="max-w-screen-lg mx-auto px-4 md:px-6 lg:px-8 py-8 text-center">
         <div className="flex items-center justify-center text-gray-800">
-          <a className="mx-2" href="mailto:millar.thomas+bcs@gmail.com" target="_blank">
-            Contact
-          </a>
           <a className="mx-2" href="https://twitter.com/thmsmlr" target="_blank">
-            Twitter
+            @thmsmlr
           </a>
         </div>
         <div className="mt-8 text-gray-800">
