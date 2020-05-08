@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import Head from 'next/head';
 import Layout from '../layouts';
 import Header from '../components/header';
-import SearchBar from '../components/searchbar';
+import UploadBar from '../components/uploadbar';
 import SwagPreview from '../components/swag-preview';
 import ThreeDots from '../components/three-dots';
 import Footer from '../components/footer';
@@ -62,7 +62,7 @@ const Page = () => {
       <div className="py-12 px-2 md:px-4 lg:px-6 max-w-screen-xl flex flex-col items-center mx-auto">
         <Header />
         <div className="grid gap-4 mt-8">
-          <SearchBar
+          <UploadBar
             ref={inputRef}
             onSelect={album => {
               const newAlbums = [...albums];
@@ -70,7 +70,6 @@ const Page = () => {
               setAlbums(newAlbums);
               setSelectedIndex((selectedIndex + 1) % 4);
             }}
-            placeholder="Search for Album..."
           />
 
           <SwagPreview

@@ -39,7 +39,6 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
     <div className="relative inline-block overflow-hidden">
       <img
         src="/images/clinton.png"
-        style={{ filter: 'grayscale(1)' }}
         className="relative z-10 block pointer-events-none select-none max-w-full"
         ref={ref}
       />
@@ -70,20 +69,7 @@ export default ({ onClick, albums = [], selectedIndex = null }) => {
         <img
           className="pointer-events-none max-w-full"
           src="/images/clintonfront.png"
-          style={{ filter: 'grayscale(1)' }}
         />
-        {width && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="font-bold text-6xl"
-              style={{
-                color: 'rgba(255,255,255,0.3)',
-                transform: `rotate(45deg) scale(${scale})`
-              }}>
-              PREVIEW
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
